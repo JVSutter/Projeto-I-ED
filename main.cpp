@@ -1,18 +1,17 @@
 #include <iostream>
+#include <string>
 
-int main() {
+#include "xml_validation.h"
 
-    char xmlfilename[100];
-
-    std::cin >> xmlfilename;  // entrada
+int main()
+{
+    std::string xmlPath{};
+    std::cin >> xmlPath;  // Arquivo de entrada
     
-    /*
-     
-       COLOQUE SEU CODIGO AQUI
-    
-    */
-
-    std::cout << xmlfilename << std::endl;  // esta linha deve ser removida
+    if (not validateXml(xmlPath)) {
+        std::cout << "output=erro" << '\n';
+        return 1;
+    }
 
     return 0;
 }
