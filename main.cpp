@@ -9,7 +9,7 @@ int main()
     std::cin >> xmlPath;  // Arquivo de entrada
     
     if (not validateXml(xmlPath)) {
-        std::cout << "output=erro" << '\n';
+        std::cout << "erro" << '\n';
         return 1;
     }
 
