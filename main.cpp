@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include "xml_validation.h"
+#include "solutions.h"
 
 int main()
 {
@@ -12,6 +12,8 @@ int main()
         std::cout << "erro" << '\n';
         return 1;
     }
+
+    calculateCleanupArea(xmlPath);
 
     return 0;
 }
