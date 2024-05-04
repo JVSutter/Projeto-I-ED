@@ -126,11 +126,51 @@ std::vector<std::vector<int>> strToMatrix(const std::string& str, const int& hei
     return positions;
 }
 
-void calculateCleanupArea(const std::string& path)
+int computeMatrixArea(std::vector<std::vector<int>>& matrix, const int& height,
+                      const int& width, const int& initialX, const int& initialY)
+{
+    int area{0};
+    structures::ArrayQueue<std::tuple<int, int>> positions{};
+    positions.enqueue(std::make_tuple(initialX, initialY));
+    std::vector<std::vector<int>> visitedElements(static_cast<matrix_size_t>(height),
+                                                  std::vector<int>(static_cast<matrix_size_t>(width), 0));
+
+    while (not positions.empty()) {
+        std::tuple<int, int> currentPos{positions.dequeue()};
+        int x{std::get<0>(currentPos)};
+        int y{std::get<1>(currentPos)};
+
+        if (x != (height - 1) and matrix[x + 1][y] == 1 and visitedElements[x + 1][y] == 0) {
+            visitedElements[x + 1][y] = 1;
+            positions.enqueue(std::make_tuple(x + 1, y));
+            area++;
+        }
+        if (x > 0 and matrix[x - 1][y] == 1 and visitedElements[x - 1][y] == 0) {
+            visitedElements[x - 1][y] = 1;
+            positions.enqueue(std::make_tuple(x - 1, y));
+            area++;
+        }
+        if (y != (width - 1) and matrix[x][y + 1] == 1 and visitedElements[x][y + 1] == 0) {
+            visitedElements[x][y + 1] = 1;
+            positions.enqueue(std::make_tuple(x, y + 1));
+            area++;
+        }
+        if (y != 0 and matrix[x][y - 1] == 1 and visitedElements[x][y - 1] == 0) {
+            visitedElements[x][y - 1] = 1;
+            positions.enqueue(std::make_tuple(x, y - 1));
+            area++;
+        }
+    }
+
+    return area;
+}
+
+void computeCleanupArea(const std::string& path)
 {
     std::string text{readFile(path)};
     if (not validateXml(text)) {
         std::cout << "erro" << '\n';
+        return;
     }
     structures::ArrayQueue<std::tuple<int, int>> positions{};
     
@@ -140,7 +180,7 @@ void calculateCleanupArea(const std::string& path)
             break;
         }
 
-        std::cout << popTag(scenario, "nome") << '\n';
+        std::cout << popTag(scenario, "nome") << " ";
         int height{std::stoi(popTag(scenario, "altura"))};
         int width{std::stoi(popTag(scenario, "largura"))};
         int initialX{std::stoi(popTag(scenario, "x"))};
@@ -148,7 +188,6 @@ void calculateCleanupArea(const std::string& path)
 
         std::string matrixStr{popTag(scenario, "matriz")};
         std::vector<std::vector<int>> matrix{strToMatrix(matrixStr, height, width)};
-
-        
+        std::cout << computeMatrixArea(matrix, height, width, initialX, initialY) << '\n';
     }
 }

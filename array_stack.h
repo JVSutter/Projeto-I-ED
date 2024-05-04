@@ -40,7 +40,7 @@ class ArrayStack {
     int top_;
     std::size_t max_size_;
 
-    static const auto DEFAULT_SIZE = 1000u;
+    static const auto DEFAULT_SIZE = 10000u;
 };
 
 }  // namespace structures
