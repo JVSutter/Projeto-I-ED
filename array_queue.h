@@ -40,7 +40,7 @@ class ArrayQueue {
     std::size_t max_size_;
     int begin_;  // indice do inicio (para fila circular)
     int end_;  // indice do fim (para fila circular)
-    static const auto DEFAULT_SIZE = 10u;
+    static const auto DEFAULT_SIZE = 1000u;
 };
 
 }  // namespace structures

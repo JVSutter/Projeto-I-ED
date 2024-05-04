@@ -1,11 +1,15 @@
 #include <fstream>
-#include <string>
 #include <iostream>
+#include <string>
+#include <tuple>
+#include <vector>
 
 #include "array_stack.h"
+#include "array_queue.h"
 #include "solutions.h"
 
 using str_size_t = std::string::size_type;
+using matrix_size_t = std::vector<std::vector<int>>::size_type;
 constexpr str_size_t NOT_FOUND{std::string::npos};
 
 
@@ -26,25 +30,27 @@ static std::string readFile(const std::string& path)
 
 static std::string popTag(std::string& text, const std::string& tag)
 {
-    std::string closingTag{'/' + tag};
-
     str_size_t beginContent{};
     str_size_t endContent{};
 
     str_size_t currentChar{0};
 
     while (true) {
-        str_size_t openBracketPos{text.find('<', currentChar)};
+        if (currentChar >= text.size()) {
+            return "";
+        }
+
+        str_size_t openingBracketPos{text.find('<', currentChar)};
         str_size_t closeBracketPos{text.find('>', currentChar)};
 
-        str_size_t tagSize{(closeBracketPos - openBracketPos) - 1};
-        std::string currentTag{text.substr(openBracketPos + 1, tagSize)};
+        str_size_t tagSize{(closeBracketPos - openingBracketPos) - 1};
+        std::string currentTag{text.substr(openingBracketPos + 1, tagSize)};
 
         if (currentTag == tag) {
             beginContent = closeBracketPos + 1;
         }
-        else if (currentTag == closingTag) {
-            endContent = openBracketPos - 1;
+        else if (currentTag == ('/' + tag)) {
+            endContent = openingBracketPos - 1;
             break;
         }
 
@@ -61,39 +67,33 @@ static std::string popTag(std::string& text, const std::string& tag)
     return content;
 }
 
-void calculateCleanupArea(const std::string& path)
-{
-    return;
-}
-
-bool validateXml(const std::string& path)
+static bool validateXml(const std::string& text)
 {
     structures::ArrayStack<std::string> stack{};
-    std::string text{readFile(path)};
     str_size_t currentChar{0};
 
     while (true) {
-        str_size_t openBracketPos{text.find('<', currentChar)};
+        str_size_t openingBracketPos{text.find('<', currentChar)};
         str_size_t closeBracketPos{text.find('>', currentChar)};
 
-        if ((closeBracketPos < openBracketPos) or
-           (openBracketPos == NOT_FOUND and closeBracketPos != NOT_FOUND) or
-           (openBracketPos != NOT_FOUND and closeBracketPos == NOT_FOUND)) {
+        if ((closeBracketPos < openingBracketPos) or
+           (openingBracketPos == NOT_FOUND and closeBracketPos != NOT_FOUND) or
+           (openingBracketPos != NOT_FOUND and closeBracketPos == NOT_FOUND)) {
             return false;
         }
-        else if (openBracketPos == NOT_FOUND and closeBracketPos == NOT_FOUND) {
+        else if (openingBracketPos == NOT_FOUND and closeBracketPos == NOT_FOUND) {
             break;
         }
 
-        int tagSize{static_cast<int>(closeBracketPos - openBracketPos) - 1};
-        std::string tag{text.substr(openBracketPos + 1, tagSize)};
+        int tagSize{static_cast<int>(closeBracketPos - openingBracketPos) - 1};
+        std::string tag{text.substr(openingBracketPos + 1, tagSize)};
 
         if (tag.find('<') != NOT_FOUND) {
             return false;
         }
 
         if (tag[0] == '/') {
-            std::string endTag{text.substr(openBracketPos + 2, tagSize - 1)};
+            std::string endTag{text.substr(openingBracketPos + 2, tagSize - 1)};
 
             if (stack.top() != endTag) {
                 return false;
@@ -108,4 +108,47 @@ bool validateXml(const std::string& path)
     }
 
     return stack.empty();
+}
+
+std::vector<std::vector<int>> strToMatrix(const std::string& str, const int& height, const int& width)
+{
+    std::vector<std::vector<int>> positions(static_cast<matrix_size_t>(height),
+                                            std::vector<int>(static_cast<matrix_size_t>(width)));
+    int currentBit{0};
+
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            positions[i][j] = str[currentBit] - '0';
+            currentBit++;
+        }
+    }
+
+    return positions;
+}
+
+void calculateCleanupArea(const std::string& path)
+{
+    std::string text{readFile(path)};
+    if (not validateXml(text)) {
+        std::cout << "erro" << '\n';
+    }
+    structures::ArrayQueue<std::tuple<int, int>> positions{};
+    
+    while (true) {
+        std::string scenario{popTag(text, "cenario")};
+        if (scenario == "") {
+            break;
+        }
+
+        std::cout << popTag(scenario, "nome") << '\n';
+        int height{std::stoi(popTag(scenario, "altura"))};
+        int width{std::stoi(popTag(scenario, "largura"))};
+        int initialX{std::stoi(popTag(scenario, "x"))};
+        int initialY{std::stoi(popTag(scenario, "y"))};
+
+        std::string matrixStr{popTag(scenario, "matriz")};
+        std::vector<std::vector<int>> matrix{strToMatrix(matrixStr, height, width)};
+
+        
+    }
 }
