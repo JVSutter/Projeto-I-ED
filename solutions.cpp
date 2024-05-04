@@ -62,16 +62,18 @@ static bool validateXml(const std::string& text)
     return stack.empty();
 }
 
-void computeCleanupArea(const std::string& path)
+void computeCleanupAreaXML(const std::string& path)
 {
-    // Função responsável por computar a área de limpeza do robô
+    /*
+        Função responsável por computar a área de limpeza do
+        robô no arquivo XML presente em "path"
+    */
 
     std::string text{readFile(path)};
     if (not validateXml(text)) {
         std::cout << "erro" << '\n';
         return;
     }
-    structures::ArrayQueue<std::tuple<int, int>> positions{};
     
     while (true) {
         std::string scenario{popTag(text, "cenario")};

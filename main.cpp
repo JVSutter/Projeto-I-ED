@@ -8,7 +8,7 @@ int main()
     std::string xmlPath{};
     std::cin >> xmlPath;  // Arquivo de entrada
 
-    computeCleanupArea(xmlPath);
+    computeCleanupAreaXML(xmlPath);
 
     return 0;
 }

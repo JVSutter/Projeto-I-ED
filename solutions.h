@@ -3,6 +3,6 @@
 #ifndef XML_VALIDATION_H
 #define XML_VALIDATION_H
 
-void computeCleanupArea(const std::string& path);
+void computeCleanupAreaXML(const std::string& path);
 
 #endif
