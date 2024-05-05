@@ -110,6 +110,10 @@ int computeMatrixArea(std::vector<std::vector<int>>& matrix, const int& height,
         começando na posição (initialX, initialY).
     */
 
+    if (matrix[initialX][initialY] == 0) {
+        return 0;
+    }
+
     int area{0};
     structures::ArrayQueue<std::tuple<int, int>> positions{};
     positions.enqueue(std::make_tuple(initialX, initialY));
