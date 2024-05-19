@@ -1,4 +1,4 @@
-// Copyright [2024] João Vitor Curcio Sutter
+// Copyright [2024] João Vitor Curcio Sutter E Davi Ludvig Longen Machado
 
 #include <cstdint>  // std::size_t
 #include <stdexcept>  // C++ exceptions

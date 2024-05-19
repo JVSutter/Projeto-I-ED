@@ -28,23 +28,23 @@ static bool validateXml(const std::string& text)
         str_size_t openingBracketPos{text.find('<', currentChar)};
         str_size_t closeBracketPos{text.find('>', currentChar)};
 
-        if ((closeBracketPos < openingBracketPos) or
-           (openingBracketPos == NOT_FOUND and closeBracketPos != NOT_FOUND) or
-           (openingBracketPos != NOT_FOUND and closeBracketPos == NOT_FOUND)) {
+        if ((closeBracketPos < openingBracketPos) or  // '>' antes de '<'
+           (openingBracketPos == NOT_FOUND and closeBracketPos != NOT_FOUND) or // '>' sem '<'
+           (openingBracketPos != NOT_FOUND and closeBracketPos == NOT_FOUND)) { // '<' sem '>'
             return false;
         }
-        else if (openingBracketPos == NOT_FOUND and closeBracketPos == NOT_FOUND) {
+        else if (openingBracketPos == NOT_FOUND and closeBracketPos == NOT_FOUND) { // Fim do arquivo
             break;
         }
 
         int tagSize{static_cast<int>(closeBracketPos - openingBracketPos) - 1};
         std::string tag{text.substr(openingBracketPos + 1, tagSize)};
 
-        if (tag.find('<') != NOT_FOUND) {
+        if (tag.find('<') != NOT_FOUND) { // < dentro da tag. Ex: <tag<tag>>
             return false;
         }
 
-        if (tag[0] == '/') {
+        if (tag[0] == '/') { // Tag de fechamento
             std::string endTag{text.substr(openingBracketPos + 2, tagSize - 1)};
 
             if (stack.top() != endTag) {
@@ -59,7 +59,7 @@ static bool validateXml(const std::string& text)
         currentChar = closeBracketPos + 1;
     }
 
-    return stack.empty();
+    return stack.empty(); // Não sobrou nenhuma tag? Então o XML é válido
 }
 
 void computeCleanupAreaXML(const std::string& path)
@@ -70,6 +70,8 @@ void computeCleanupAreaXML(const std::string& path)
     */
 
     std::string text{readFile(path)};
+
+    // Antes de mais nada, precisamos ter certeza que o arquivo XML é válido
     if (not validateXml(text)) {
         std::cout << "erro" << '\n';
         return;

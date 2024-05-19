@@ -76,7 +76,7 @@ std::string popTag(std::string& text, const std::string& tag)
 
     str_size_t beginErase{beginContent - tag.size() - 2};
     str_size_t eraseLen{content.size() + tag.size() * 2 + 5};
-    text.erase(beginErase, eraseLen);
+    text.erase(beginErase, eraseLen); // Apaga a tag e seu conteúdo (não serão mais usados)
 
     return content;
 }
@@ -94,7 +94,7 @@ std::vector<std::vector<int>> strToMatrix(const std::string& str, const int& hei
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-            positions[i][j] = str[currentBit] - '0';
+            positions[i][j] = str[currentBit] - '0'; // Converte char para int
             currentBit++;
         }
     }
@@ -117,6 +117,8 @@ int computeMatrixArea(std::vector<std::vector<int>>& matrix, const int& height,
     int area{0};
     structures::ArrayQueue<std::tuple<int, int>> positions{};
     positions.enqueue(std::make_tuple(initialX, initialY));
+
+    // Matriz de visitados. 0 = não visitado, 1 = visitado
     std::vector<std::vector<int>> visitedElements(static_cast<matrix_size_t>(height),
                                                   std::vector<int>(static_cast<matrix_size_t>(width), 0));
 

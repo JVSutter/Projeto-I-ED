@@ -1,3 +1,5 @@
+// AUTORES: João Vitor Curcio Sutter e Davi Ludvig Longen Machado
+
 #include <iostream>
 #include <string>
 
