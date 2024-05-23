@@ -1,4 +1,4 @@
-// AUTORES: João Vitor Curcio Sutter e Davi Ludvig Longen Machado
+// AUTORES: João Vitor Curcio Sutter
 
 #include <iostream>
 #include <string>

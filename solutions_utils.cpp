@@ -114,13 +114,14 @@ int computeMatrixArea(std::vector<std::vector<int>>& matrix, const int& height,
         return 0;
     }
 
-    int area{0};
+    int area{1};
     structures::ArrayQueue<std::tuple<int, int>> positions{};
     positions.enqueue(std::make_tuple(initialX, initialY));
 
     // Matriz de visitados. 0 = não visitado, 1 = visitado
     std::vector<std::vector<int>> visitedElements(static_cast<matrix_size_t>(height),
                                                   std::vector<int>(static_cast<matrix_size_t>(width), 0));
+    visitedElements[initialX][initialY] = 1;
 
     while (not positions.empty()) {
         std::tuple<int, int> currentPos{positions.dequeue()};

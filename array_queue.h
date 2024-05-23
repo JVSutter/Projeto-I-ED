@@ -1,4 +1,4 @@
-// Copyright [2024] João Vitor Curcio Sutter E Davi Ludvig Longen Machado
+// Copyright [2024] João Vitor Curcio Sutter
 #ifndef STRUCTURES_ARRAY_QUEUE_H
 #define STRUCTURES_ARRAY_QUEUE_H
 
