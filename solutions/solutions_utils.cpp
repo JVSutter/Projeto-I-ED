@@ -3,7 +3,7 @@
 #include <tuple>
 #include <vector>
 
-#include "array_queue.h"
+#include "../data_structures/array_queue.h"
 #include "solutions_utils.h"
 
 /*

@@ -4,8 +4,8 @@
 #include <tuple>
 #include <vector>
 
-#include "array_stack.h"
-#include "array_queue.h"
+#include "../data_structures/array_stack.h"
+#include "../data_structures/array_queue.h"
 #include "solutions_utils.h"
 #include "solutions.h"
 

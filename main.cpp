@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-#include "solutions.h"
+#include "solutions/solutions.h"
 
 int main()
 {
